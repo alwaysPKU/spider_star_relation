@@ -165,6 +165,7 @@ if __name__=='__main__':
     # 1. 获取推荐列表（人名）
     # path1 = './oid_name_type/20180117.txt'  # 每次运行修改
     path1 = mkdir.get_data_file_path('./oid_name_type')
+    print(path1)
     # path2 = './res_container/res1'  # 每次运行修改
     path2 = mkdir.res_name_path('./res_container')
     path3 = mkdir.recommed_file_path('./recommend_container')
