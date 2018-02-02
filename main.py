@@ -28,10 +28,10 @@ def recomend(star_url, path):
 
         # print(v)
         data = lurl.load(v)
-        if data == None:
-            with open('log','a') as f1:
-                f1.write('明星url_load失败:')
-                f1.write(k+':'+v+'\n')
+        if data is None:
+            # with open('log','a') as f1:
+            #     f1.write('明星url_load失败:')
+            #     f1.write(k+':'+v+'\n')
             continue
         #解析结果：relation，movieurl，showurl
         relation_list=analysis.get_relations(data)
@@ -94,7 +94,8 @@ def recomend(star_url, path):
             show_list=list(show_set)
             # print(show_list)
             show_dic['show'] = show_list
-            if len(show_dic['show']) != 0 and show_dic['show'] != None:
+            # if len(show_dic['show']) != 0 and show_dic['show'] != None:
+            if show_dic['show']:
                 full_relation.append(show_dic)
                 print('show_over')
         # p2.close()
@@ -106,10 +107,10 @@ def recomend(star_url, path):
             with open(path, 'a') as f:
                 data = js.dumps(full, ensure_ascii=False)
                 f.write(data+'\n')
-        else:
-            # return None
-            with open('None_recommend_list','a') as f3:
-                f3.write(k+':'+v+'\n')
+        # else:
+        #     # return None
+        #     with open('None_recommend_list','a') as f3:
+        #         f3.write(k+':'+v+'\n')
 
 
 def get_movieset(movie_url):
@@ -157,11 +158,16 @@ def get_showset(show_url):
     return show_set
 
 if __name__=='__main__':
-    start_time = time.time()
-    p = Pool(8)
+    # start_time = time.time()
+    # 清除老数据
+    mkdir.format_file()
+    p = Pool(50)
     # 1. 获取推荐列表（人名）
-    path1 = './oid_name_type/20180117.txt'  # 每次运行修改
-    path2 = './res_container/res1'  # 每次运行修改
+    # path1 = './oid_name_type/20180117.txt'  # 每次运行修改
+    path1 = mkdir.get_data_file_path('./oid_name_type')
+    # path2 = './res_container/res1'  # 每次运行修改
+    path2 = mkdir.res_name_path('./res_container')
+    path3 = mkdir.recommed_file_path('./recommend_container')
     # {starname:url}
     full = []
     full.append(star.get_mingxingurl_dict(path1))
@@ -175,12 +181,12 @@ if __name__=='__main__':
     # 2. 获取oid推荐列表
     p.close()
     p.join()
-    path3 = mkdir.mkdir('./recommend_container/recommend1/')# 每次运行修改
-    # path3_3 = './recommend_container/recommend7/'# 修改#注意逻辑这里是错的
+    # path3 = mkdir.mkdir('./recommend_container/recommend1/')# 每次运行修改
+    # # path3_3 = './recommend_container/recommend7/'# 修改#注意逻辑这里是错的
     name_oid.name_oid(path1, path2, path3)
     # 3. 增加反向关系，得到最终的列表
     add.ad_re_relation(path3)
     # 4.统计结果
     count.count(path3)
-    end_time = time.time()
-    print('程序运行了：' + str((end_time - start_time) / 60) + '分钟')
+    # end_time = time.time()
+    # print('程序运行了：' + str((end_time - start_time) / 60) + '分钟')
