@@ -4,6 +4,7 @@ import json as js
 
 # 把name——topicid存入词典
 def name_oid(path1,path2,path3):
+    print('======name-匹配-oid======')
     star_dic = dict()
     with open(path1) as f:
         line = f.readline()
@@ -11,19 +12,19 @@ def name_oid(path1,path2,path3):
             item = line.split()
             if len(item) == 3 and item[2] == '明星':
                 if item[1][0:2] == '演员':
-                    print(item[1])
+                    # print(item[1])
                     star_dic[item[1].lstrip('演员')] = item[0]
                     # print(star_dic)
                 elif item[1][0:3] == '小演员':
-                    print(item[1])
+                    # print(item[1])
                     star_dic[item[1].lstrip('小演员')] = item[0]
                     # print(star_dic)
                 elif item[1][0:4] == '泰国演员':
-                    print(item[1])
+                    # print(item[1])
                     star_dic[item[1].lstrip('泰国演员')] = item[0]
                     # print(star_dic)
                 elif item[1][0:4] == '配音演员':
-                    print(item[1])
+                    # print(item[1])
                     star_dic[item[1].lstrip('配音演员')] = item[0]
                     # print(star_dic)
                 # elif item[1][0:4] == '国话演员':

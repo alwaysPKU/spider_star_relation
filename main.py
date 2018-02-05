@@ -9,7 +9,7 @@ import add_re_relation as add
 import mkdir
 import count
 from multiprocessing import Pool
-import time
+import os
 
 
 def recomend(star_url, path):
@@ -165,7 +165,6 @@ if __name__=='__main__':
     # 1. 获取推荐列表（人名）
     # path1 = './oid_name_type/20180117.txt'  # 每次运行修改
     path1 = mkdir.get_data_file_path('./oid_name_type')
-    print(path1)
     # path2 = './res_container/res1'  # 每次运行修改
     path2 = mkdir.res_name_path('./res_container')
     path3 = mkdir.recommed_file_path('./recommend_container')
@@ -184,10 +183,18 @@ if __name__=='__main__':
     p.join()
     # path3 = mkdir.mkdir('./recommend_container/recommend1/')# 每次运行修改
     # # path3_3 = './recommend_container/recommend7/'# 修改#注意逻辑这里是错的
-    name_oid.name_oid(path1, path2, path3)
-    # 3. 增加反向关系，得到最终的列表
-    add.ad_re_relation(path3)
-    # 4.统计结果
-    count.count(path3)
-    # end_time = time.time()
-    # print('程序运行了：' + str((end_time - start_time) / 60) + '分钟')
+    if os.path.exists(path2):
+        name_oid.name_oid(path1, path2, path3)
+        # 3. 增加反向关系，得到最终的列表
+        add.ad_re_relation(path3)
+        # 4.统计结果
+        count.count(path3)
+        with open(path3 + 'recommend_count', 'a', encoding='utf-8') as f5:
+            f5.write('源数据：'+path1)
+        # count.count(path3)
+        # end_time = time.time()
+        # print('程序运行了：' + str((end_time - start_time) / 60) + '分钟')
+    else:
+        print(path3+'--->没有推荐结果，请检查问题！')
+        with open(path3 + 'recommend_count', 'a', encoding='utf-8') as f5:
+            f5.write('源数据'+path1+'\n'+path3+'--->没有推荐结果，请检查问题！')
