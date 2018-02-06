@@ -190,7 +190,7 @@ if __name__=='__main__':
         # 4.统计结果
         count.count(path3)
         with open(path3 + 'recommend_count', 'a', encoding='utf-8') as f5:
-            f5.write('源数据：'+path1)
+            f5.write('源数据：'+path1+'\n')
         # count.count(path3)
         # end_time = time.time()
         # print('程序运行了：' + str((end_time - start_time) / 60) + '分钟')
